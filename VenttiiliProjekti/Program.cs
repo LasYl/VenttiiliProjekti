@@ -21,7 +21,7 @@ namespace VenttiiliProjekti
         static void Main(string[] args)
         {
             // TODO: luo lista pelaajista
-            List<int> pelaajat = new List<int>();
+            List<int> valveList = new List<Valve>();
             TulostaOhjeet();
             bool jatka = true;
 
@@ -33,6 +33,23 @@ namespace VenttiiliProjekti
 
                 switch (komento)
                 {
+                    case "2":
+                    Console.WriteLine("Anna uuden venttiilin positio: ");
+                    int positioTunnus = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Anna uuden venttiilin valmistaja: ");
+                    string valmistaja = Console.ReadLine();
+                    Console.WriteLine("Anna uuden venttiilin malli: ");
+                    string malli = Console.ReadLine();
+                    Console.WriteLine("Anna uuden venttiilin tyyppi: ");
+                    string tyyppi = Console.ReadLine();
+                    Console.WriteLine("Anna uuden venttiilin materiaali: ");
+                    string materiaali = Console.ReadLine();
+                    Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
+                    int varastoNimike = int.Parse(Console.ReadLine());
+                    int newValve = new Valve(positioTunnus, valmistaja, malli, tyyppi, materiaali, varastoNimike);
+                        valvelist.Add(newValve);
+                    break;
+
                     case "u": // uusi pelaaja
                         Console.Write("Pelaajan numero:");
                         nro = int.Parse(Console.ReadLine());
