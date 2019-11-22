@@ -26,6 +26,11 @@ namespace VenttiiliProjekti
 
         //public void setValmistaja(s)
 
+        public int tarkistaPositio()
+        {
+            return _positioTunnus;
+        }
+
 
         public string tarkistaValmistaja()
         {
@@ -57,6 +62,9 @@ namespace VenttiiliProjekti
             return _huoltovali;
         }
 
-
+        public static implicit operator int(Valve v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
