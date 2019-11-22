@@ -22,6 +22,7 @@ namespace VenttiiliProjekti
         {
             
             List<Valve> valveList = new List<Valve>();
+            List<Nimike> nimikeLista = new List<Nimike>();
             TulostaOhjeet();
             bool jatka = true;
 
@@ -33,24 +34,39 @@ namespace VenttiiliProjekti
 
                 switch (komento)
                 {
+                    case "1":
+                        Console.WriteLine("Anna uuden nimikkeelle nimi: ");
+                        string nimi = Console.ReadLine();
+                        Console.WriteLine("Anna uuden huoltosarjan valmistaja: ");
+                        string Nvalmistaja = Console.ReadLine();
+                        Console.WriteLine("Anna uuden nimikkeen jälleenmyyjä: ");
+                        string myyja = Console.ReadLine();
+                        Console.WriteLine("Anna uuden nimikkeen hinta: ");
+                        double hinta = double.Parse(Console.ReadLine());
+                        Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
+                        int saldo = int.Parse(Console.ReadLine());
+                        Nimike newNimike = new Nimike(nimi, Nvalmistaja, myyja, hinta, saldo);
+                        nimikeLista.Add(newNimike);
+                        break;
+
                     case "2":
-                    Console.WriteLine("Anna uuden venttiilin positio: ");
-                    int positioTunnus = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Anna uuden venttiilin valmistaja: ");
-                    string valmistaja = Console.ReadLine();
-                    Console.WriteLine("Anna uuden venttiilin malli: ");
-                    string malli = Console.ReadLine();
-                    Console.WriteLine("Anna uuden venttiilin tyyppi: ");
-                    string tyyppi = Console.ReadLine();
-                    Console.WriteLine("Anna uuden venttiilin materiaali: ");
-                    string materiaali = Console.ReadLine();
-                    Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
-                    int varastoNimike = int.Parse(Console.ReadLine());
-                    Valve newValve = new Valve(positioTunnus, valmistaja, malli, tyyppi, materiaali, varastoNimike);
-                    valveList.Add(newValve);
+                        Console.WriteLine("Anna uuden venttiilin positio: ");
+                        int positioTunnus = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Anna uuden venttiilin valmistaja: ");
+                        string valmistaja = Console.ReadLine();
+                        Console.WriteLine("Anna uuden venttiilin malli: ");
+                        string malli = Console.ReadLine();
+                        Console.WriteLine("Anna uuden venttiilin tyyppi: ");
+                        string tyyppi = Console.ReadLine();
+                        Console.WriteLine("Anna uuden venttiilin materiaali: ");
+                        string materiaali = Console.ReadLine();
+                        Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
+                        int varastoNimike = int.Parse(Console.ReadLine());
+                        Valve newValve = new Valve(positioTunnus, valmistaja, malli, tyyppi, materiaali, varastoNimike);
+                        valveList.Add(newValve);
                     break;
 
-                    case "u": // uusi pelaaja
+                    /*case "u": // uusi pelaaja
                         Console.Write("Pelaajan numero:");
                         nro = int.Parse(Console.ReadLine());
                         // TODO: lisää pelaaja listaan
@@ -109,7 +125,7 @@ namespace VenttiiliProjekti
                         // TODO: järjestä pelaajat
                         pelaajat.Sort();
                         break;
-
+                    */
                 }
             }
         }
