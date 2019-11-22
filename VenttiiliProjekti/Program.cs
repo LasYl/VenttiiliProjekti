@@ -23,18 +23,24 @@ namespace VenttiiliProjekti
             
             List<Valve> valveList = new List<Valve>();
             List<Nimike> nimikeLista = new List<Nimike>();
-            TulostaOhjeet();
+            int nimike = 299999;
             bool jatka = true;
 
             
             while (jatka)
             {
+                TulostaOhjeet();
+
                 Console.WriteLine("Anna komento");
                 string komento = Console.ReadLine();
+                
 
                 switch (komento)
                 {
                     case "1":
+                        
+                        int nimikeNumero = nimike + 1;
+                        nimike++;
                         Console.WriteLine("Anna uuden nimikkeelle nimi: ");
                         string nimi = Console.ReadLine();
                         Console.WriteLine("Anna uuden huoltosarjan valmistaja: ");
@@ -43,10 +49,12 @@ namespace VenttiiliProjekti
                         string myyja = Console.ReadLine();
                         Console.WriteLine("Anna uuden nimikkeen hinta: ");
                         double hinta = double.Parse(Console.ReadLine());
-                        Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
+                        Console.WriteLine("Anna nimikkeelle varastosaldo ");
                         int saldo = int.Parse(Console.ReadLine());
-                        Nimike newNimike = new Nimike(nimi, Nvalmistaja, myyja, hinta, saldo);
+                        Nimike newNimike = new Nimike(nimikeNumero, nimi, Nvalmistaja, myyja, hinta, saldo);
                         nimikeLista.Add(newNimike);
+                        Console.WriteLine($"Nimike { newNimike.tarkistaNimikeNumero() } luotu.");
+                       
                         break;
 
                     case "2":
@@ -64,68 +72,88 @@ namespace VenttiiliProjekti
                         int varastoNimike = int.Parse(Console.ReadLine());
                         Valve newValve = new Valve(positioTunnus, valmistaja, malli, tyyppi, materiaali, varastoNimike);
                         valveList.Add(newValve);
-                    break;
-
-                    /*case "u": // uusi pelaaja
-                        Console.Write("Pelaajan numero:");
-                        nro = int.Parse(Console.ReadLine());
-                        // TODO: lisää pelaaja listaan
-                        pelaajat.Add(nro);
+                        Console.WriteLine($"Venttiili { newValve.tarkistaPositio() } luotu.");
                         break;
-                    case "h": // ohjeet
-                        TulostaOhjeet();
 
-                        break;
-                    case "t": // tulosta
-                        foreach (var item in pelaajat)
+                    case "3":
+                        foreach (Nimike Nimike in nimikeLista)
                         {
-                            Console.Write(item + " ");
+                            Console.WriteLine($"Nimike { Nimike.tarkistaNimikeNumero() }\tNimi: { Nimike.tarkistaNimi() } \tValmistaja: { Nimike.tarkistaValmistaja() } \tMyyjä: { Nimike.tarkistaMyyja() } \tHinta: { Nimike.tarkistaHinta() }");
                         }
-                        Console.WriteLine();
                         break;
-                    case "q": // lopeta
-                        jatka = false;
-                        break;
-                    case "s": // hae lineaarisesti taulukosta
-                        // Toteuta pelaajan hakeminen
-                        // Jos pelaaja löytyy, tulostetaan sen paikka 
-                        // Jos ei löydy, tulostetaan -1
-                        Console.Write("Pelaajan numero:");
-                        nro = int.Parse(Console.ReadLine());
-                        int paikka = pelaajat.IndexOf(nro);
-                        // TODO: hae pelaaja listasta
-                        // haku itse tehtynä
-                        paikka = -1;
 
-                        for (int i = 0; i < pelaajat.Count; i++)
+                    case "4":
+                        foreach (Valve Valve in valveList)
                         {
-                            if (pelaajat[i] == nro)
+                            Console.WriteLine($"Positio { Valve.tarkistaPositio() }\tValmistaja: { Valve.tarkistaValmistaja() } \tMalli: { Valve.tarkistaMalli() } \tTyyppi: { Valve.tarkistaTyyppi() } \tVarastonimike: { Valve.tarkistaNimike() }");
+                        }
+                        break;
+                        /*Console.WriteLine("Anna haluamasi nimikkeen nimikenumero: ");
+                        int haettavaNimike = int.Parse(Console.ReadLine());
+                        Console.WriteLine($"Nimike { Nimike.tarkistaNimi() } luotu.");
+
+                        break;*/
+
+                        /*case "u": // uusi pelaaja
+                            Console.Write("Pelaajan numero:");
+                            nro = int.Parse(Console.ReadLine());
+                            // TODO: lisää pelaaja listaan
+                            pelaajat.Add(nro);
+                            break;
+                        case "h": // ohjeet
+                            TulostaOhjeet();
+
+                            break;
+                        case "t": // tulosta
+                            foreach (var item in pelaajat)
                             {
-                                paikka = i;
-                                break;
+                                Console.Write(item + " ");
                             }
+                            Console.WriteLine();
+                            break;
+                        case "q": // lopeta
+                            jatka = false;
+                            break;
+                        case "s": // hae lineaarisesti taulukosta
+                            // Toteuta pelaajan hakeminen
+                            // Jos pelaaja löytyy, tulostetaan sen paikka 
+                            // Jos ei löydy, tulostetaan -1
+                            Console.Write("Pelaajan numero:");
+                            nro = int.Parse(Console.ReadLine());
+                            int paikka = pelaajat.IndexOf(nro);
+                            // TODO: hae pelaaja listasta
+                            // haku itse tehtynä
+                            paikka = -1;
 
-                        }
-                        if (paikka == -1)
-                            Console.WriteLine("ei löytynyt");
-                        else
-                            Console.WriteLine("löytyi paikasta " + paikka);
-                        break;
+                            for (int i = 0; i < pelaajat.Count; i++)
+                            {
+                                if (pelaajat[i] == nro)
+                                {
+                                    paikka = i;
+                                    break;
+                                }
 
-                    // TODO: kokeile binäärihakua
-                    case "p": // poista pelaaja
-                        Console.Write("Pelaajan numero:");
-                        nro = int.Parse(Console.ReadLine());
+                            }
+                            if (paikka == -1)
+                                Console.WriteLine("ei löytynyt");
+                            else
+                                Console.WriteLine("löytyi paikasta " + paikka);
+                            break;
 
-                        // TODO: poista pelaaja
-                        pelaajat.Remove(nro);
-                        break;
+                        // TODO: kokeile binäärihakua
+                        case "p": // poista pelaaja
+                            Console.Write("Pelaajan numero:");
+                            nro = int.Parse(Console.ReadLine());
 
-                    case "j":
-                        // TODO: järjestä pelaajat
-                        pelaajat.Sort();
-                        break;
-                    */
+                            // TODO: poista pelaaja
+                            pelaajat.Remove(nro);
+                            break;
+
+                        case "j":
+                            // TODO: järjestä pelaajat
+                            pelaajat.Sort();
+                            break;
+                        */
                 }
             }
         }

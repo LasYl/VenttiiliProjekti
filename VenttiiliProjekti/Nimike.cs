@@ -14,9 +14,9 @@ namespace VenttiiliProjekti
         private int _saldo;
         
 
-        public Nimike(string nimi, string Nvalmistaja, string myyja, double hinta, int saldo)
+        public Nimike(int nimikeNumero, string nimi, string Nvalmistaja, string myyja, double hinta, int saldo)
         {
-           
+            _nimikeNumero = nimikeNumero;
             _nimi = nimi;
             _Nvalmistaja = Nvalmistaja;
             _myyja = myyja;
@@ -39,7 +39,7 @@ namespace VenttiiliProjekti
 
         public string tarkistaValmistaja()
         {
-            return _valmistaja;
+            return _Nvalmistaja;
         }
 
         public string tarkistaMyyja()
