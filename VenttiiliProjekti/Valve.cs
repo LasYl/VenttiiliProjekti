@@ -7,28 +7,39 @@ namespace VenttiiliProjekti
     class Valve
     {
         private int _positioTunnus;
+        private string _nimi;
         private string _valmistaja;
         private string _malli;
-        private string _tyyppi;
-        private string _materiaali;
+        private int _koko;
         private int _varastoNimike;
+        private DateTime _seuraavaHuolto;
+        private DateTime _huollettu;
+
         private int _huoltovali;
         
-        public Valve (int positioTunnus, string valmistaja, string malli, string tyyppi, string materiaali, int varastoNimike)
+        public Valve (int positioTunnus, string nimitys, string valmistaja, string malli, int koko, int varastoNimike, DateTime seuraavaHuolto, DateTime huollettu, int huoltovali )
         {
             _positioTunnus = positioTunnus;
+            _nimi = nimitys;
             _valmistaja = valmistaja;
             _malli = malli;
-            _tyyppi = tyyppi;
-            _materiaali = materiaali;
+            _koko = koko;
             _varastoNimike = varastoNimike;
-    }
+            _seuraavaHuolto = seuraavaHuolto;
+            _huollettu = huollettu;
+            _huoltovali = huoltovali;
+        }
 
         //public void setValmistaja(s)
 
         public int tarkistaPositio()
         {
             return _positioTunnus;
+        }
+
+        public string tarkistaNimi()
+        {
+            return _nimi;
         }
 
 
@@ -42,14 +53,9 @@ namespace VenttiiliProjekti
             return _malli;
         }
 
-        public string tarkistaTyyppi()
+        public int tarkistaKoko()
         {
-            return _tyyppi;
-        }
-
-        public string tarkistaMateriaali()
-        {
-            return _materiaali;
+            return _koko;
         }
 
         public int tarkistaNimike()
@@ -57,6 +63,15 @@ namespace VenttiiliProjekti
             return _varastoNimike;
         }
 
+        public DateTime tarkistaSeuraavahuolto()
+        {
+            return _seuraavaHuolto;
+        }
+
+        public DateTime tarkistaEdellinenHuolto()
+        {
+            return _huollettu;
+        }
         public int tarkistaHuoltovali()
         {
             return _huoltovali;

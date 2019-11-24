@@ -10,11 +10,12 @@ namespace VenttiiliProjekti
         private string _nimi;
         private string _Nvalmistaja;
         private string _myyja;
-        private double _hinta;
+        private int _hinta;
         private int _saldo;
-        
+        private int _minimisaldo;
 
-        public Nimike(int nimikeNumero, string nimi, string Nvalmistaja, string myyja, double hinta, int saldo)
+
+        public Nimike(int nimikeNumero, string nimi, string Nvalmistaja, string myyja, int hinta, int saldo, int minimisaldo)
         {
             _nimikeNumero = nimikeNumero;
             _nimi = nimi;
@@ -22,6 +23,12 @@ namespace VenttiiliProjekti
             _myyja = myyja;
             _hinta = hinta;
             _saldo = saldo;
+            _minimisaldo = minimisaldo;
+        }
+
+        public Nimike(int nimikeNumero, string nimi, string Nvalmistaja, string myyja, int hinta, int saldo, int minimisaldo, out bool success) : this(nimikeNumero, nimi, Nvalmistaja, myyja, hinta, saldo, minimisaldo)
+        {
+            success = false;
         }
 
         //public void setValmistaja(s)
@@ -30,6 +37,8 @@ namespace VenttiiliProjekti
         {
             return _nimikeNumero;
         }
+
+       
 
 
         public string tarkistaNimi()
@@ -57,7 +66,12 @@ namespace VenttiiliProjekti
             return _saldo;
         }
 
-      
+        public int tarkistaMinimisaldo()
+        {
+            return _minimisaldo;
+        }
+
+
         public static implicit operator int(Nimike v)
         {
             throw new NotImplementedException();
