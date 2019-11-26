@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NpgsqlTypes;
 
 namespace VenttiiliProjekti
 {
@@ -12,12 +13,21 @@ namespace VenttiiliProjekti
         private string _malli;
         private int _koko;
         private int _varastoNimike;
-        private DateTime _seuraavaHuolto;
-        private DateTime _huollettu;
+        private NpgsqlDate _seuraavaHuolto;
+        private NpgsqlDate _huollettu;
 
         private int _huoltovali;
+        private int v1;
+        private string v2;
+        private string v3;
+        private string v4;
+        private int v5;
+        private int v6;
+        private NpgsqlDate npgsqlDate1;
+        private NpgsqlDate npgsqlDate2;
         
-        public Valve (int positioTunnus, string nimitys, string valmistaja, string malli, int koko, int varastoNimike, DateTime seuraavaHuolto, DateTime huollettu, int huoltovali )
+
+        public Valve (int positioTunnus, string nimitys, string valmistaja, string malli, int koko, int varastoNimike, NpgsqlDate seuraavaHuolto, NpgsqlDate huollettu, int huoltovali )
         {
             _positioTunnus = positioTunnus;
             _nimi = nimitys;
@@ -29,6 +39,26 @@ namespace VenttiiliProjekti
             _huollettu = huollettu;
             _huoltovali = huoltovali;
         }
+
+        public Valve(int positioTunnus, string nimitys, string valmistaja, string malli, int koko, int varastoNimike, NpgsqlDate seuraavaHuolto, NpgsqlDate huollettu, int huoltovali, out bool success) : this(positioTunnus, nimitys, valmistaja, malli, koko, varastoNimike, seuraavaHuolto, huollettu, huoltovali)
+        {
+
+            success = false;
+        }
+
+        /*public Valve(int v1, string v2, string v3, string v4, int v5, int v6, NpgsqlDate npgsqlDate1, NpgsqlDate npgsqlDate2, int v9, out bool success)
+        {
+            this.v1 = v1;
+            this.v2 = v2;
+            this.v3 = v3;
+            this.v4 = v4;
+            this.v5 = v5;
+            this.v6 = v6;
+            this.npgsqlDate1 = npgsqlDate1;
+            this.npgsqlDate2 = npgsqlDate2;
+            
+            success = false;
+        }*/
 
         //public void setValmistaja(s)
 
@@ -63,12 +93,12 @@ namespace VenttiiliProjekti
             return _varastoNimike;
         }
 
-        public DateTime tarkistaSeuraavahuolto()
+        public NpgsqlDate tarkistaSeuraavahuolto()
         {
             return _seuraavaHuolto;
         }
 
-        public DateTime tarkistaEdellinenHuolto()
+        public NpgsqlDate tarkistaEdellinenHuolto()
         {
             return _huollettu;
         }

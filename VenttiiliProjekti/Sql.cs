@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Npgsql;
 
+
 namespace VenttiiliProjekti
 {
     static class Sql
@@ -16,6 +17,7 @@ namespace VenttiiliProjekti
         // Connection is private and gets opened in the constructor and used in all the db transactions
         static private NpgsqlConnection connection;
         static private NpgsqlCommand valitseKaikkiNimikkeet = null;
+        static private NpgsqlCommand valitseKaikkiVenttiilit = null;
         static private NpgsqlCommand lisaaVenttiili = null;
         static private NpgsqlCommand lisaaNimike = null;
 
@@ -56,7 +58,29 @@ namespace VenttiiliProjekti
             return list;
 
         }
-        
+
+        static public List<Valve> selectKaikkiVenttiilit()
+        {
+            List<Valve> list = new List<Valve>();
+            using (valitseKaikkiVenttiilit = new NpgsqlCommand("SELECT * FROM venttiili", connection))
+            {
+                valitseKaikkiVenttiilit.Prepare(); // Prepare the select query that gets all cars from the database
+
+                using (NpgsqlDataReader results = valitseKaikkiVenttiilit.ExecuteReader())
+                {
+                    bool success;
+
+                    while (results.Read())
+                    {
+                        list.Add(new Valve(results.GetInt32(0), results.GetString(1), results.GetString(2), results.GetString(3), results.GetInt32(4), results.GetInt32(5), results.GetDate(6), results.GetDate(7), results.GetInt32(8),  out success));
+                    }
+                }
+            }
+
+            return list;
+
+        }
+
         // Lisätään nimike tietokantaan
         static public void AddNimike(Nimike nimike)
         {

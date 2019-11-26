@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NpgsqlTypes;
 
 namespace VenttiiliProjekti
 {
@@ -13,8 +14,10 @@ namespace VenttiiliProjekti
             Console.WriteLine("[2] Lisää prosessiventtiili\n");
             Console.WriteLine("[3] Hae varastonimikkeen tiedot\n");
             Console.WriteLine("[4] Hae prosessiventtiilin tiedot\n");
-            Console.WriteLine("[5] Huolla venttiili\n");
-            Console.WriteLine("[6] Ohjeet\n");
+            Console.WriteLine("[5] Lista nimikkeistä\n");
+            Console.WriteLine("[6] Lista venttiileistä\n");
+            Console.WriteLine("[7] Huolla venttiili\n");
+            Console.WriteLine("[8] Ohjeet\n");
             Console.WriteLine("[Q] Lopetus\n\n");
         }
 
@@ -25,13 +28,16 @@ namespace VenttiiliProjekti
             List<Nimike> nimikeLista = new List<Nimike>();
             int nimike = 300001;
             bool jatka = true;
+            
             List<Nimike> nimikkeet = new List<Nimike>();
+            valveList = Sql.selectKaikkiVenttiilit();
             nimikkeet = Sql.selectKaikkiNimikkeet();
             foreach (Nimike Nimike in nimikkeet)
             {
                 nimike++;
 
             }
+
             
 
 
@@ -84,11 +90,11 @@ namespace VenttiiliProjekti
                         Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
                         int varastoNimike = int.Parse(Console.ReadLine());
                         //Console.WriteLine("Anna seuraava huoltopäivä: ");
-                        DateTime huollettu = DateTime.Today;
+                        NpgsqlDate huollettu = NpgsqlDate.Today;
                         //DateTime seuraavaHuolto = DateTime.Parse(Console.ReadLine());
                         Console.WriteLine("Anna huoltoväli vuosina: ");
                         int huoltovali = int.Parse(Console.ReadLine());
-                        DateTime seuraavaHuolto = huollettu.AddYears(huoltovali);
+                        NpgsqlDate seuraavaHuolto = huollettu.AddYears(huoltovali);
                         Valve newValve = new Valve(positioTunnus, nimitys, valmistaja, malli, koko, varastoNimike, seuraavaHuolto, huollettu, huoltovali);
                         Sql.AddValve(newValve);
                         valveList.Add(newValve);
@@ -111,16 +117,31 @@ namespace VenttiiliProjekti
                         break;
                         
                     case "5":
-                        
-                      
+
+                        Console.WriteLine("Nimike\tNimi\tHinta");
 
                         foreach (Nimike Nimike in nimikkeet)
                         { 
-                                Console.WriteLine(Nimike.tarkistaNimikeNumero() + Nimike.tarkistaNimi() + Nimike.tarkistaHinta());
-                            
+                                Console.WriteLine($"{Nimike.tarkistaNimikeNumero()} \t {Nimike.tarkistaNimi()} \t {Nimike.tarkistaHinta()}");
+
+
                         }
                         
-                        Console.WriteLine(nimike);
+                        
+                        break;
+
+                    case "6":
+
+                        
+
+                        foreach (Valve Valve in valveList)
+                        {
+                            Console.WriteLine($"Positio { Valve.tarkistaPositio() }\tValmistaja: { Valve.tarkistaValmistaja() } \tMalli: { Valve.tarkistaMalli() } \tKoko: { Valve.tarkistaKoko() } \tVarastonimike: { Valve.tarkistaNimike() }");
+
+
+                        }
+
+                        
                         break;
                         /*Console.WriteLine("Anna haluamasi nimikkeen nimikenumero: ");
                         int haettavaNimike = int.Parse(Console.ReadLine());
