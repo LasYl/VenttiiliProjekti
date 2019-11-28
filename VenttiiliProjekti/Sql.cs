@@ -27,7 +27,7 @@ namespace VenttiiliProjekti
             try
             {
                 connection = new NpgsqlConnection(CONNECTION_STRING);
-                connection.Open(); // Here we open connection
+                connection.Open(); // Avataan yhteys tietokantaan
             }
             catch (NpgsqlException ex)
             {
@@ -35,8 +35,8 @@ namespace VenttiiliProjekti
             }
 
         }
-        
-        // GetAllCars gets all the cars from the database into a generic list
+
+        // Haetaan tietokannasta olemassaolevat nimikkeet
         static public List<Nimike> selectKaikkiNimikkeet()
         {
             List<Nimike> list = new List<Nimike>();
@@ -59,10 +59,12 @@ namespace VenttiiliProjekti
 
         }
 
+
+        // Haetaan tietokannasta olemassaolevat venttiilit, ja luodaan siitä konstruktori
         static public List<Valve> selectKaikkiVenttiilit()
         {
             List<Valve> list = new List<Valve>();
-            using (valitseKaikkiVenttiilit = new NpgsqlCommand("SELECT * FROM venttiili", connection))
+            using (valitseKaikkiVenttiilit = new NpgsqlCommand($"SELECT * FROM venttiili", connection))
             {
                 valitseKaikkiVenttiilit.Prepare(); // Prepare the select query that gets all cars from the database
 
@@ -81,7 +83,7 @@ namespace VenttiiliProjekti
 
         }
 
-        // Lisätään nimike tietokantaan
+        // Lisätään nimike tietokantaan, ja luodaan siitä konstruktori
         static public void AddNimike(Nimike nimike)
         {
             using (lisaaNimike = new NpgsqlCommand("INSERT INTO varastonimike(id, nimi, valmistaja, myyjä, hinta, saldo, minimisaldo) " +

@@ -23,18 +23,31 @@ namespace VenttiiliProjekti
 
         static void Main(string[] args)
         {
-            
+            // Venttiililistan luonti
             List<Valve> valveList = new List<Valve>();
+            
+            // Nimikelistan luonti
             List<Nimike> nimikeLista = new List<Nimike>();
-            int nimike = 300001;
+            
+            // Ensimmäisen nimikenumeron asetus numeroksi 300001
+            int seuraavaNimike = 300001;
+            
+            // Ohjelman jatkaminen kunnes muutetaan falseksi
             bool jatka = true;
             
+            // Nimikelistan luonti
             List<Nimike> nimikkeet = new List<Nimike>();
+
+            // Päivitetään venttiilista tietokannasta
             valveList = Sql.selectKaikkiVenttiilit();
+
+            // Päivitetään nimikelista tietokannasta
             nimikkeet = Sql.selectKaikkiNimikkeet();
+
+            // Rullataan 300001:stä nimikkeiden verran eteenpäin, että saadaan seuraava luotava nimike 
             foreach (Nimike Nimike in nimikkeet)
             {
-                nimike++;
+                seuraavaNimike++;
 
             }
 
@@ -54,38 +67,54 @@ namespace VenttiiliProjekti
                 switch (komento)
                 {
                     case "1":
-                        
-                        int nimikeNumero = nimike;
-                        nimike++;
+                        // Uuden varastonimikkeen luonti
+                        // Asetetaan nimikenumeroksi tietokannasta haettu seuraava vapaa nimike
+                        int nimikeNumero = seuraavaNimike;
+                        // Lisätään seuraavaa nimikettä varten yksi lisää
+                        seuraavaNimike++;
+                        // Annetaan nimikkeelle nimitys
                         Console.WriteLine("Anna uuden nimikkeelle nimi: ");
                         string nimi = Console.ReadLine();
+                        // Annetaan nimikkeelle valmistaja
                         Console.WriteLine("Anna uuden huoltosarjan valmistaja: ");
                         string Nvalmistaja = Console.ReadLine();
+                        // Annetaan nimikkeelle myyjä
                         Console.WriteLine("Anna uuden nimikkeen jälleenmyyjä: ");
                         string myyja = Console.ReadLine();
+                        // Annetaan nimikkeelle hinta
                         Console.WriteLine("Anna uuden nimikkeen hinta: ");
                         int hinta = int.Parse(Console.ReadLine());
+                        // Annetaan nimikkeelle saldo, montako niitä on laittaa hyllyyn
                         Console.WriteLine("Anna nimikkeelle varastosaldo ");
                         int saldo = int.Parse(Console.ReadLine());
+                        // Annetaan nimikkeelle minimisaldo, määrä joka saldoa pitää vähintään olla ennen kuin niitä pitää tilata lisää
                         Console.WriteLine("Anna nimikkeelle minimisaldo, mikä pitää aina vähintään olla ");
                         int minimisaldo = int.Parse(Console.ReadLine());
+                        // Luodaan nimike listaan ja tietokantaan
                         Nimike newNimike = new Nimike(nimikeNumero, nimi, Nvalmistaja, myyja, hinta, saldo, minimisaldo);
                         Sql.AddNimike(newNimike);
                         nimikeLista.Add(newNimike);
+                        // Tulostetaan teksti, että kyseinen nimike on luotu
                         Console.WriteLine($"Nimike { newNimike.tarkistaNimikeNumero() } luotu.");
                        
                         break;
 
                     case "2":
+                        // Annetaan venttiilille positionumero, jonka käyttäjä itse päättää
                         Console.WriteLine("Anna uuden venttiilin positio: ");
                         int positioTunnus = int.Parse(Console.ReadLine());
+                        // Annetaan venttiilille nimitys
                         Console.WriteLine("Anna uuden venttiilin nimitys: ");
                         string nimitys = Console.ReadLine();
+                        // Annetaan venttiilille valmistaja
                         Console.WriteLine("Anna uuden venttiilin valmistaja: ");
                         string valmistaja = Console.ReadLine();
+                        // Annetaan venttiilille malli
                         Console.WriteLine("Anna uuden venttiilin malli: ");
                         string malli = Console.ReadLine();
+                        // Annetaan venttiilille koko
                         Console.WriteLine("Anna uuden venttiilin koko: ");
+                        // Annetaan venttiilille huollossa käytettävä varaston nimikenumero
                         int koko = int.Parse(Console.ReadLine());
                         Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
                         int varastoNimike = int.Parse(Console.ReadLine());
@@ -122,7 +151,7 @@ namespace VenttiiliProjekti
 
                         foreach (Nimike Nimike in nimikkeet)
                         { 
-                                Console.WriteLine($"{Nimike.tarkistaNimikeNumero()} \t {Nimike.tarkistaNimi()} \t {Nimike.tarkistaHinta()}");
+                                Console.WriteLine($"{Nimike.tarkistaNimikeNumero()} \t {Nimike.tarkistaNimi()} \t {Nimike.tarkistaValmistaja()} \t {Nimike.tarkistaHinta()} \t {Nimike.tarkistaMyyja()} \t { Nimike.tarkistaHinta()}");
 
 
                         }
