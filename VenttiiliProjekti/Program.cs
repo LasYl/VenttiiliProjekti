@@ -146,26 +146,27 @@ namespace VenttiiliProjekti
                         break;
                         
                     case "5":
-
-                        Console.WriteLine("Nimike\tNimi\tHinta");
+                       
+                        Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-15} | {4,7} | {5,7} | {6,15}", "Nimike", "Nimi", "Valmistaja", "Myyjä", "Hinta", "Saldo","Minimisaldo"));
+                        Console.WriteLine();
 
                         foreach (Nimike Nimike in nimikkeet)
-                        { 
-                                Console.WriteLine($"{Nimike.tarkistaNimikeNumero()} \t {Nimike.tarkistaNimi()} \t {Nimike.tarkistaValmistaja()} \t {Nimike.tarkistaHinta()} \t {Nimike.tarkistaMyyja()} \t { Nimike.tarkistaHinta()}");
+                        {
+                            Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-15} | {4,5} | {5,7} | {6,15}", ( Nimike.tarkistaNimikeNumero()), (Nimike.tarkistaNimi()),(Nimike.tarkistaValmistaja()), (Nimike.tarkistaMyyja()),(Nimike.tarkistaHinta()), (Nimike.tarkistaSaldo()), (Nimike.tarkistaMinimisaldo())));
 
 
                         }
-                        
-                        
+
                         break;
 
                     case "6":
 
-                        
+                        Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-20} | {4,7} | {5,15} | {6,15} | {7,15} | {8,15}", "Nimike", "Nimi", "Valmistaja", "Malli", "Koko", "Varastonimike", "Seuraava huolto", "Huollettu viimeksi", "Huoltoväli"));
+                        Console.WriteLine();
 
                         foreach (Valve Valve in valveList)
                         {
-                            Console.WriteLine($"Positio { Valve.tarkistaPositio() }\tValmistaja: { Valve.tarkistaValmistaja() } \tMalli: { Valve.tarkistaMalli() } \tKoko: { Valve.tarkistaKoko() } \tVarastonimike: { Valve.tarkistaNimike() }");
+                            Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-20} | {4,7} | {5,15} | {6,15}", (Valve.tarkistaPositio()), (Valve.tarkistaNimi()), (Valve.tarkistaValmistaja()), (Valve.tarkistaMalli()), (Valve.tarkistaKoko()), (Valve.tarkistaNimike()), (Valve.tarkistaSeuraavahuolto(), (Valve.tarkistaEdellinenHuolto()), (Valve.tarkistaHuoltovali()))));
 
 
                         }

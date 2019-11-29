@@ -66,7 +66,7 @@ namespace VenttiiliProjekti
             List<Valve> list = new List<Valve>();
             using (valitseKaikkiVenttiilit = new NpgsqlCommand($"SELECT * FROM venttiili", connection))
             {
-                valitseKaikkiVenttiilit.Prepare(); // Prepare the select query that gets all cars from the database
+                valitseKaikkiVenttiilit.Prepare();
 
                 using (NpgsqlDataReader results = valitseKaikkiVenttiilit.ExecuteReader())
                 {
