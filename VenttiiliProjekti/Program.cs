@@ -51,14 +51,14 @@ namespace VenttiiliProjekti
 
             }
 
-            
 
 
 
+            TulostaOhjeet();
 
             while (jatka)
             {
-                TulostaOhjeet();
+                
 
                 Console.WriteLine("Anna komento");
                 string komento = Console.ReadLine();
@@ -146,13 +146,14 @@ namespace VenttiiliProjekti
                         break;
                         
                     case "5":
-                       
-                        Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-15} | {4,7} | {5,7} | {6,15}", "Nimike", "Nimi", "Valmistaja", "Myyjä", "Hinta", "Saldo","Minimisaldo"));
+                       //Luodaan listaus nimikkeistä, jossa muotoillaan tulostusasetukset taulukkomaiseen muotoon
+                       // Ensin tulostetaan otsikot, jonka jälkeen foreachillä haetaan kaikilta nimikkeiltä tiedot
+                        Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-11} | {4,7} | {5,7} | {6,11}", "Nimike", "Nimi", "Valmistaja", "Myyjä", "Hinta", "Saldo","Minimisaldo"));
                         Console.WriteLine();
 
                         foreach (Nimike Nimike in nimikkeet)
                         {
-                            Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-15} | {4,5} | {5,7} | {6,15}", ( Nimike.tarkistaNimikeNumero()), (Nimike.tarkistaNimi()),(Nimike.tarkistaValmistaja()), (Nimike.tarkistaMyyja()),(Nimike.tarkistaHinta()), (Nimike.tarkistaSaldo()), (Nimike.tarkistaMinimisaldo())));
+                            Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-11} | {4,7} | {5,7} | {6,11}", ( Nimike.tarkistaNimikeNumero()), (Nimike.tarkistaNimi()),(Nimike.tarkistaValmistaja()), (Nimike.tarkistaMyyja()),(Nimike.tarkistaHinta()), (Nimike.tarkistaSaldo()), (Nimike.tarkistaMinimisaldo())));
 
 
                         }
@@ -160,18 +161,22 @@ namespace VenttiiliProjekti
                         break;
 
                     case "6":
-
-                        Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-20} | {4,7} | {5,15} | {6,15} | {7,15} | {8,15}", "Nimike", "Nimi", "Valmistaja", "Malli", "Koko", "Varastonimike", "Seuraava huolto", "Huollettu viimeksi", "Huoltoväli"));
+                        //Luodaan listaus venttiileistä, jossa muotoillaan tulostusasetukset taulukkomaiseen muotoon
+                        //Ensin tulostetaan otsikot, jonka jälkeen foreachillä haetaan kaikilta venttiileiltä tiedot
+                        Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-13} | {4,7} | {5,12} | {6,15} | {7,20} | {8,10}", "Nimike", "Nimi", "Valmistaja", "Malli", "Koko", "Varastonimike", "Seuraava huolto", "Huollettu viimeksi", "Huoltoväli"));
                         Console.WriteLine();
 
                         foreach (Valve Valve in valveList)
                         {
-                            Console.WriteLine(String.Format("{0,-10} | {1,-20} | {2,-12} | {3,-20} | {4,7} | {5,15} | {6,15}", (Valve.tarkistaPositio()), (Valve.tarkistaNimi()), (Valve.tarkistaValmistaja()), (Valve.tarkistaMalli()), (Valve.tarkistaKoko()), (Valve.tarkistaNimike()), (Valve.tarkistaSeuraavahuolto(), (Valve.tarkistaEdellinenHuolto()), (Valve.tarkistaHuoltovali()))));
-
-
+                            Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-13} | {4,7} | {5,12} | {6,15} | {7,20} | {8,10}", (Valve.tarkistaPositio()), (Valve.tarkistaNimi()), (Valve.tarkistaValmistaja()), (Valve.tarkistaMalli()), (Valve.tarkistaKoko()), (Valve.tarkistaNimike()), (Valve.tarkistaSeuraavahuolto()), (Valve.tarkistaEdellinenHuolto()), (Valve.tarkistaHuoltovali())));
                         }
+ 
+                        break;
 
-                        
+                    case "8":
+                        {
+                            TulostaOhjeet();
+                        }
                         break;
                         /*Console.WriteLine("Anna haluamasi nimikkeen nimikenumero: ");
                         int haettavaNimike = int.Parse(Console.ReadLine());
