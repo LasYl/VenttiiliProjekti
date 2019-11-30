@@ -6,6 +6,7 @@ namespace VenttiiliProjekti
 {
     class Nimike
     {
+        //Nimikkeiden 
         private int _nimikeNumero;
         private string _nimi;
         private string _Nvalmistaja;
@@ -14,7 +15,7 @@ namespace VenttiiliProjekti
         private int _saldo;
         private int _minimisaldo;
 
-
+        //
         public Nimike(int nimikeNumero, string nimi, string Nvalmistaja, string myyja, int hinta, int saldo, int minimisaldo)
         {
             _nimikeNumero = nimikeNumero;
@@ -31,7 +32,7 @@ namespace VenttiiliProjekti
             success = false;
         }
 
-        //public void setValmistaja(s)
+        
 
         public int tarkistaNimikeNumero()
         {

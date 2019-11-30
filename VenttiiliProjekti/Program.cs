@@ -6,18 +6,26 @@ using NpgsqlTypes;
 namespace VenttiiliProjekti
 {
     class Program
+
+
     {
+        private static int positioTunnus;
+        private static int koko;
+        private static int saldo;
+        private static int hinta;
+
+
+
         static void TulostaOhjeet()
         {
             Console.WriteLine("\n\nValitse seuraavista:\n\n");
             Console.WriteLine("[1] Lisää varastonimike\n");
             Console.WriteLine("[2] Lisää prosessiventtiili\n");
-            Console.WriteLine("[3] Hae varastonimikkeen tiedot\n");
-            Console.WriteLine("[4] Hae prosessiventtiilin tiedot\n");
-            Console.WriteLine("[5] Lista nimikkeistä\n");
-            Console.WriteLine("[6] Lista venttiileistä\n");
-            Console.WriteLine("[7] Huolla venttiili\n");
-            Console.WriteLine("[8] Ohjeet\n");
+            Console.WriteLine("[3] Lista nimikkeistä\n");
+            Console.WriteLine("[4] Lista venttiileistä\n");
+            Console.WriteLine("[5] Poista venttiili\n");
+            Console.WriteLine("[6] Poista varastonimike\n");
+            Console.WriteLine("[9] Ohjeet\n");
             Console.WriteLine("[Q] Lopetus\n\n");
         }
 
@@ -25,16 +33,16 @@ namespace VenttiiliProjekti
         {
             // Venttiililistan luonti
             List<Valve> valveList = new List<Valve>();
-            
+
             // Nimikelistan luonti
             List<Nimike> nimikeLista = new List<Nimike>();
-            
+
             // Ensimmäisen nimikenumeron asetus numeroksi 300001
             int seuraavaNimike = 300001;
-            
+
             // Ohjelman jatkaminen kunnes muutetaan falseksi
             bool jatka = true;
-            
+
             // Nimikelistan luonti
             List<Nimike> nimikkeet = new List<Nimike>();
 
@@ -53,17 +61,42 @@ namespace VenttiiliProjekti
 
 
 
+            //konstruktori nimikelistan tulostukselle
+            void tulostanimikkeet()
+            {
+                Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-11} | {4,7} | {5,7} | {6,11}", "Nimike", "Nimi", "Valmistaja", "Myyjä", "Hinta", "Saldo", "Minimisaldo"));
+                Console.WriteLine();
 
+                foreach (Nimike Nimike in nimikkeet)
+                {
+                    Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-11} | {4,7} | {5,7} | {6,11}", (Nimike.tarkistaNimikeNumero()), (Nimike.tarkistaNimi()), (Nimike.tarkistaValmistaja()), (Nimike.tarkistaMyyja()), (Nimike.tarkistaHinta()), (Nimike.tarkistaSaldo()), (Nimike.tarkistaMinimisaldo())));
+
+
+                }
+            }
+
+            //konstruktori nimikelistan tulostukselle
+            void tulostaventtiilit()
+            { 
+            Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-13} | {4,7} | {5,12} | {6,15} | {7,20} | {8,10}", "Nimike", "Nimi", "Valmistaja", "Malli", "Koko", "Varastonimike", "Seuraava huolto", "Huollettu viimeksi", "Huoltoväli"));
+            Console.WriteLine();
+
+            foreach (Valve Valve in valveList)
+            {
+                Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-13} | {4,7} | {5,12} | {6,15} | {7,20} | {8,10}", (Valve.tarkistaPositio()), (Valve.tarkistaNimi()), (Valve.tarkistaValmistaja()), (Valve.tarkistaMalli()), (Valve.tarkistaKoko()), (Valve.tarkistaNimike()), (Valve.tarkistaSeuraavahuolto()), (Valve.tarkistaEdellinenHuolto()), (Valve.tarkistaHuoltovali())));
+            }
+
+            }
+
+            //Tulostetaan ohjeet ennen looppia
             TulostaOhjeet();
-
+            //Käytttäjälle näkyvän loopin aloitus
             while (jatka)
             {
-                
-
-                Console.WriteLine("Anna komento");
+                //Loopin aloitus
+                Console.WriteLine("\nAnna komento ohjeen mukaan, (Ohjeet uudelleen = 9)");
                 string komento = Console.ReadLine();
-                
-
+                //Loopin ohjaus käyttäjän valitsemaan paikkaan
                 switch (komento)
                 {
                     case "1":
@@ -83,10 +116,26 @@ namespace VenttiiliProjekti
                         string myyja = Console.ReadLine();
                         // Annetaan nimikkeelle hinta
                         Console.WriteLine("Anna uuden nimikkeen hinta: ");
-                        int hinta = int.Parse(Console.ReadLine());
+                        try
+                        {
+                            hinta = int.Parse(Console.ReadLine());
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Anna hinta uudelleen, vain numerot hyväksytään");
+                            hinta = int.Parse(Console.ReadLine());
+                        }
                         // Annetaan nimikkeelle saldo, montako niitä on laittaa hyllyyn
                         Console.WriteLine("Anna nimikkeelle varastosaldo ");
-                        int saldo = int.Parse(Console.ReadLine());
+                        try
+                        {
+                            saldo = int.Parse(Console.ReadLine());
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Anna saldo uudelleen, vain numerot hyväksytään");
+                            saldo = int.Parse(Console.ReadLine());
+                        }
                         // Annetaan nimikkeelle minimisaldo, määrä joka saldoa pitää vähintään olla ennen kuin niitä pitää tilata lisää
                         Console.WriteLine("Anna nimikkeelle minimisaldo, mikä pitää aina vähintään olla ");
                         int minimisaldo = int.Parse(Console.ReadLine());
@@ -95,14 +144,22 @@ namespace VenttiiliProjekti
                         Sql.AddNimike(newNimike);
                         nimikeLista.Add(newNimike);
                         // Tulostetaan teksti, että kyseinen nimike on luotu
-                        Console.WriteLine($"Nimike { newNimike.tarkistaNimikeNumero() } luotu.");
+                        Console.WriteLine($"\nNimike { newNimike.tarkistaNimikeNumero() } luotu.");
                        
-                        break;
+                    break;
 
                     case "2":
                         // Annetaan venttiilille positionumero, jonka käyttäjä itse päättää
-                        Console.WriteLine("Anna uuden venttiilin positio: ");
-                        int positioTunnus = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Anna uuden venttiilin positio numeroina: ");
+                        try
+                        {
+                            positioTunnus = int.Parse(Console.ReadLine());
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Anna positio uudelleen, vain numerot hyväksytään");
+                            positioTunnus = int.Parse(Console.ReadLine());
+                        }
                         // Annetaan venttiilille nimitys
                         Console.WriteLine("Anna uuden venttiilin nimitys: ");
                         string nimitys = Console.ReadLine();
@@ -114,13 +171,34 @@ namespace VenttiiliProjekti
                         string malli = Console.ReadLine();
                         // Annetaan venttiilille koko
                         Console.WriteLine("Anna uuden venttiilin koko: ");
+                        try
+                        {
+                            koko = int.Parse(Console.ReadLine());
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Anna koko uudelleen, vain numerot hyväksytään");
+                            koko = int.Parse(Console.ReadLine());
+                           
+                        }
+                         
                         // Annetaan venttiilille huollossa käytettävä varaston nimikenumero
-                        int koko = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
+                        
+                        Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: (nimikelistaus 1 ");
+                        
+                       
                         int varastoNimike = int.Parse(Console.ReadLine());
-                        //Console.WriteLine("Anna seuraava huoltopäivä: ");
+                        if (varastoNimike == 1)
+                        {
+                            tulostanimikkeet();
+                            Console.WriteLine("Anna uuden venttiilin tiivisteiden varastonimike: ");
+                            
+                            varastoNimike = int.Parse(Console.ReadLine());
+                        }
+                        
+                        
                         NpgsqlDate huollettu = NpgsqlDate.Today;
-                        //DateTime seuraavaHuolto = DateTime.Parse(Console.ReadLine());
+                       
                         Console.WriteLine("Anna huoltoväli vuosina: ");
                         int huoltovali = int.Parse(Console.ReadLine());
                         NpgsqlDate seuraavaHuolto = huollettu.AddYears(huoltovali);
@@ -130,37 +208,18 @@ namespace VenttiiliProjekti
                         Console.WriteLine($"Venttiili { newValve.tarkistaPositio() } luotu.");
                         break;
 
+
+
+
+
                     case "3":
-                        foreach (Nimike Nimike in nimikeLista)
-                        {
-                            Console.WriteLine($"Nimike { Nimike.tarkistaNimikeNumero() }\tNimi: { Nimike.tarkistaNimi() } \tValmistaja: { Nimike.tarkistaValmistaja() } \tMyyjä: { Nimike.tarkistaMyyja() } \tHinta: { Nimike.tarkistaHinta() }");
-                        }
+                            //Nimikkeiden tulostus taulukkona
+                            {
+                                tulostanimikkeet();
+                            }
                         break;
 
                     case "4":
-                        foreach (Valve Valve in valveList)
-                        {
-                            Console.WriteLine($"Positio { Valve.tarkistaPositio() }\tValmistaja: { Valve.tarkistaValmistaja() } \tMalli: { Valve.tarkistaMalli() } \tKoko: { Valve.tarkistaKoko() } \tVarastonimike: { Valve.tarkistaNimike() }");
-                        
-}
-                        break;
-                        
-                    case "5":
-                       //Luodaan listaus nimikkeistä, jossa muotoillaan tulostusasetukset taulukkomaiseen muotoon
-                       // Ensin tulostetaan otsikot, jonka jälkeen foreachillä haetaan kaikilta nimikkeiltä tiedot
-                        Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-11} | {4,7} | {5,7} | {6,11}", "Nimike", "Nimi", "Valmistaja", "Myyjä", "Hinta", "Saldo","Minimisaldo"));
-                        Console.WriteLine();
-
-                        foreach (Nimike Nimike in nimikkeet)
-                        {
-                            Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-11} | {4,7} | {5,7} | {6,11}", ( Nimike.tarkistaNimikeNumero()), (Nimike.tarkistaNimi()),(Nimike.tarkistaValmistaja()), (Nimike.tarkistaMyyja()),(Nimike.tarkistaHinta()), (Nimike.tarkistaSaldo()), (Nimike.tarkistaMinimisaldo())));
-
-
-                        }
-
-                        break;
-
-                    case "6":
                         //Luodaan listaus venttiileistä, jossa muotoillaan tulostusasetukset taulukkomaiseen muotoon
                         //Ensin tulostetaan otsikot, jonka jälkeen foreachillä haetaan kaikilta venttiileiltä tiedot
                         Console.WriteLine(String.Format("{0,-10} | {1,-15} | {2,-12} | {3,-13} | {4,7} | {5,12} | {6,15} | {7,20} | {8,10}", "Nimike", "Nimi", "Valmistaja", "Malli", "Koko", "Varastonimike", "Seuraava huolto", "Huollettu viimeksi", "Huoltoväli"));
@@ -173,94 +232,53 @@ namespace VenttiiliProjekti
  
                         break;
 
-                    case "8":
+                    case "5":
+                        {
+                            
+                            Sql.selectKaikkiVenttiilit();
+                            tulostaventtiilit();
+                            Console.WriteLine("Anna poistettavan venttiilin positio ");
+                            int id = int.Parse(Console.ReadLine());
+                         
+                            Sql.poistaSql(id);
+                            valveList = Sql.selectKaikkiVenttiilit();
+                        }
+                        break;
+
+                    case "6":
+                        {
+
+                            Sql.selectKaikkiNimikkeet();
+                            tulostanimikkeet();
+                            Console.WriteLine("Anna poistettavan nimikkeen numero ");
+                            int id = int.Parse(Console.ReadLine());
+
+                            Sql.poistaNimike(id);
+                            nimikkeet = Sql.selectKaikkiNimikkeet();
+                        }
+                        break;
+
+                    
+
+
+                    case "9":
                         {
                             TulostaOhjeet();
                         }
                         break;
-                        /*Console.WriteLine("Anna haluamasi nimikkeen nimikenumero: ");
-                        int haettavaNimike = int.Parse(Console.ReadLine());
-                        Console.WriteLine($"Nimike { Nimike.tarkistaNimi() } luotu.");
 
-                        break;*/
-
-                        /*case "u": // uusi pelaaja
-                            Console.Write("Pelaajan numero:");
-                            nro = int.Parse(Console.ReadLine());
-                            // TODO: lisää pelaaja listaan
-                            pelaajat.Add(nro);
-                            break;
-                        case "h": // ohjeet
-                            TulostaOhjeet();
-
-                            break;
-                        case "t": // tulosta
-                            foreach (var item in pelaajat)
-                            {
-                                Console.Write(item + " ");
-                            }
-                            Console.WriteLine();
-                            break;
-                        case "q": // lopeta
+                        // Ohjelman lopetus
+                    case "Q":
+                        {
                             jatka = false;
-                            break;
-                        case "s": // hae lineaarisesti taulukosta
-                            // Toteuta pelaajan hakeminen
-                            // Jos pelaaja löytyy, tulostetaan sen paikka 
-                            // Jos ei löydy, tulostetaan -1
-                            Console.Write("Pelaajan numero:");
-                            nro = int.Parse(Console.ReadLine());
-                            int paikka = pelaajat.IndexOf(nro);
-                            // TODO: hae pelaaja listasta
-                            // haku itse tehtynä
-                            paikka = -1;
+                        }
+                        break;
+                        
 
-                            for (int i = 0; i < pelaajat.Count; i++)
-                            {
-                                if (pelaajat[i] == nro)
-                                {
-                                    paikka = i;
-                                    break;
-                                }
-
-                            }
-                            if (paikka == -1)
-                                Console.WriteLine("ei löytynyt");
-                            else
-                                Console.WriteLine("löytyi paikasta " + paikka);
-                            break;
-
-                        // TODO: kokeile binäärihakua
-                        case "p": // poista pelaaja
-                            Console.Write("Pelaajan numero:");
-                            nro = int.Parse(Console.ReadLine());
-
-                            // TODO: poista pelaaja
-                            pelaajat.Remove(nro);
-                            break;
-
-                        case "j":
-                            // TODO: järjestä pelaajat
-                            pelaajat.Sort();
-                            break;
-                        */
+                       
                 }
             }
         }
-        //static void Main(string[] args)
-        //{
-        //Console.WriteLine("Anna uuden venttiilin positio: ");
-        //string positio = Console.ReadLine();
-        //Console.WriteLine("Anna uuden venttiilin valmistaja: ");
-        //string valmistaja = Console.ReadLine();
-        //Console.WriteLine("Anna uuden venttiilin malli: ");
-        //string malli = Console.ReadLine();
-        //Console.WriteLine("Anna uuden venttiilin tyyppi: ");
-        //string tyyppi = Console.ReadLine();
-        //Console.WriteLine("Anna uuden venttiilin materiaali: ");
-        //string materiaali = Console.ReadLine();
-
-        //Valve ekaVenttiili = new Valve(positio);
-        //}
+       
     }
 }

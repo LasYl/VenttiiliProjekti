@@ -4,35 +4,43 @@ using System.Text;
 using Npgsql;
 
 
+
 namespace VenttiiliProjekti
 {
     static class Sql
     {
-        // DB Connection details
+        
         private const string HOST = "localhost";
         private const string USERNAME = "postgres";
         private const string PASSWORD = "Grespost99";
         private const string DB = "Venttiili";
         private const string CONNECTION_STRING = "Host=" + HOST + ";Username=" + USERNAME + ";Password=" + PASSWORD + ";Database=" + DB;
-        // Connection is private and gets opened in the constructor and used in all the db transactions
+       
         static private NpgsqlConnection connection;
         static private NpgsqlCommand valitseKaikkiNimikkeet = null;
-        static private NpgsqlCommand valitseKaikkiVenttiilit = null;
+        static private NpgsqlCommand valitseKaikkiVenttiilit = null; 
         static private NpgsqlCommand lisaaVenttiili = null;
         static private NpgsqlCommand lisaaNimike = null;
+        static private NpgsqlCommand poistaVenttiili = null;
+        static private NpgsqlCommand nimikePoisto = null;
+       
+        
 
         // Constructor: creates the connection to the db
         static Sql()
         {
-            try
-            {
-                connection = new NpgsqlConnection(CONNECTION_STRING);
-                connection.Open(); // Avataan yhteys tietokantaan
-            }
-            catch (NpgsqlException ex)
-            {
-                throw new NpgsqlException($"Error in database connection ({ ex.Message }).");
-            }
+             
+                try
+                {
+                    connection = new NpgsqlConnection(CONNECTION_STRING);
+                    connection.Open(); // Avataan yhteys tietokantaan
+                }
+                catch (NpgsqlException ex)
+                {
+                    throw new NpgsqlException($"Error in database connection ({ ex.Message }).");
+                }
+
+            
 
         }
 
@@ -83,6 +91,8 @@ namespace VenttiiliProjekti
 
         }
 
+       
+
         // Lisätään nimike tietokantaan, ja luodaan siitä konstruktori
         static public void AddNimike(Nimike nimike)
         {
@@ -118,5 +128,51 @@ namespace VenttiiliProjekti
                 lisaaVenttiili.ExecuteNonQuery();
             }
         }
+
+        //Venttiilin poisto tietokannasta
+        public static void poistaSql(int id)
+        {
+            try
+            {
+                connection = new NpgsqlConnection(CONNECTION_STRING);
+                connection.Open(); // Avataan yhteys tietokantaan
+            }
+            catch (NpgsqlException ex)
+            {
+                throw new NpgsqlException($"Error in database connection ({ ex.Message }).");
+            }
+            using (poistaVenttiili = new NpgsqlCommand($"DELETE FROM venttiili WHERE ID ='{id}';", connection))
+            {
+                
+                poistaVenttiili.Prepare();
+                using (NpgsqlDataReader npgsql = poistaVenttiili.ExecuteReader());
+            }
+
+        }
+
+        //Nimikkeen poisto tietokannasta
+        public static void poistaNimike(int id)
+        {
+            try
+            {
+                connection = new NpgsqlConnection(CONNECTION_STRING);
+                connection.Open(); // Avataan yhteys tietokantaan
+            }
+            catch (NpgsqlException ex)
+            {
+                throw new NpgsqlException($"Error in database connection ({ ex.Message }).");
+            }
+            using (nimikePoisto = new NpgsqlCommand($"DELETE FROM varastonimike WHERE ID ='{id}';", connection))
+            {
+
+                nimikePoisto.Prepare();
+                using (NpgsqlDataReader npgsql = nimikePoisto.ExecuteReader()) ;
+            }
+
+        }
+
+      
+
+
     }
 }

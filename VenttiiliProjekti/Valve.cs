@@ -17,14 +17,8 @@ namespace VenttiiliProjekti
         private NpgsqlDate _huollettu;
 
         private int _huoltovali;
-        private int v1;
-        private string v2;
-        private string v3;
-        private string v4;
-        private int v5;
-        private int v6;
-        private NpgsqlDate npgsqlDate1;
-        private NpgsqlDate npgsqlDate2;
+        
+      
         
 
         public Valve (int positioTunnus, string nimitys, string valmistaja, string malli, int koko, int varastoNimike, NpgsqlDate seuraavaHuolto, NpgsqlDate huollettu, int huoltovali )
@@ -46,22 +40,8 @@ namespace VenttiiliProjekti
             success = false;
         }
 
-        /*public Valve(int v1, string v2, string v3, string v4, int v5, int v6, NpgsqlDate npgsqlDate1, NpgsqlDate npgsqlDate2, int v9, out bool success)
-        {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.v3 = v3;
-            this.v4 = v4;
-            this.v5 = v5;
-            this.v6 = v6;
-            this.npgsqlDate1 = npgsqlDate1;
-            this.npgsqlDate2 = npgsqlDate2;
-            
-            success = false;
-        }*/
-
-        //public void setValmistaja(s)
-
+        
+        // Getterit
         public int tarkistaPositio()
         {
             return _positioTunnus;
@@ -107,9 +87,8 @@ namespace VenttiiliProjekti
             return _huoltovali;
         }
 
-        public static implicit operator int(Valve v)
-        {
-            throw new NotImplementedException();
-        }
+      
+
+     
     }
 }
